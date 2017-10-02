@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>{ifset title}{include title|striptags} | {/ifset}Finance Manager</title>
+
+      <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <link rel="stylesheet" href="{$basePath}/bower_components/font-awesome/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{$basePath}/bower_components/Ionicons/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="{$basePath}/build/css/bundle.css">
+  
+    <script src="https://www.google.com/jsapi"></script>
+
+    <link rel="shortcut icon" href="{$basePath}/favicon.ico">
+  </head>
+  <body class="skin-red sidebar-mini {$user->isLoggedIn() ? '' : 'not-logged'}">
+    <div class="wrapper">
+
+      <header class="main-header" n:if="$user->isLoggedIn()">
+
+        <a href="{$basePath}" class="logo" n:if="$user->isLoggedIn()">
+          <span class="logo-mini">Finance Manager</span>
+          <span class="logo-lg"><b>Finance</b> MANAGER</span>
+        </a>
+
+        <nav class="navbar navbar-static-top" role="navigation">
+          <a href="#" class="sidebar-toggle visible-xs" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+
+              <li class="dropdown user user-menu">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                  <img src="{$basePath}/images/user2-160x160.jpg" class="user-image" alt="User Image">
+                  <span class="hidden-xs">{$user->identity->name}</span>
+                </a>                
+                <ul class="dropdown-menu">
+                  <li class="user-header">
+                    <img src="{$basePath}/images/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <p>
+                      {$user->identity->name}
+                    </p>                    
+                  </li>
+
+                </ul>
+              </li>
+              <li>
+                <a n:href="User:password"><i class="fa fa-gears fa-fw"></i> Změna hesla</a>
+              </li>              
+              <li>
+                <a n:href="Sign:out" style="cursor: pointer"><i class="fa fa-sign-out fa-fw"></i> Odhlásit se</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <aside class="main-sidebar" n:if="$user->isLoggedIn()">
+
+        <section class="sidebar">
+
+          <div class="user-panel">
+            <div class="pull-left image">
+              <img src="{$basePath}/images/user2-160x160.jpg" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+              <p>{$user->identity->name}</p>
+              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+          </div>
+
+          <ul class="sidebar-menu">
+            <li>
+                <a href=""><i class="fa fa-money fa-fw"></i> Výdaje <span class="fa arrow"></span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">                                
+                    <li>
+                        <a n:href="Expense:"><i class="fa fa-circle-o"></i> Přehled výdajů</a>
+                    </li>
+                    <li>
+                        <a n:href="Expense:add"><i class="fa fa-circle-o"></i> Přidat výdaj</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href=""><i class="fa fa-book fa-fw"></i> Kategorie výdajů <span class="fa arrow"></span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">                                
+                    <li>
+                        <a n:href="Expense:categoryList"><i class="fa fa-circle-o"></i> Přehled kategorií</a>
+                        <a n:href="Expense:addType"><i class="fa fa-circle-o"></i> Přidat kategorii</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href=""><i class="fa fa-sliders fa-fw"></i> Měsíční limity <span class="fa arrow"></span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">                                
+                    <li>
+                        <a n:href="Limit:"><i class="fa fa-circle-o"></i> Přehled limitů</a>
+                        <a n:href="Limit:add"><i class="fa fa-circle-o"></i> Přidat limit</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href=""><i class="fa fa-clock-o fa-fw"></i> Pravidelné platby <span class="fa arrow"></span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">                                
+                    <li>
+                        <a n:href="PeriodicPayment:"><i class="fa fa-circle-o"></i> Přehled plateb</a>
+                        <a n:href="PeriodicPayment:add"><i class="fa fa-circle-o"></i> Přidat platbu</a>
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </section>
+      </aside>
+
+      <div class="content-wrapper">
+        <section class="content-header" n:if="$user->isLoggedIn()">
+
+          <h1>{include title}</h1>
+
+          {snippet flashMessages}
+          <div n:foreach="$flashes as $flash" class="flash-message callout callout-{$flash->type}">
+            <p>{$flash->message}</p>
+          </div>
+          {/snippet}
+        </section>
+      
+        <section class="content" n:tag-if="$user->isLoggedIn()">
+            <div class="box box-danger" n:tag-if="$user->isLoggedIn()">
+                <div class="box-body" n:tag-if="$user->isLoggedIn()">
+                    {include content}
+                </div>
+            </div>
+        </section>
+
+      </div>
+
+      <footer class="main-footer">
+        <div class="text-center">
+          <strong>Copyright &copy; 2017 <a href="#">Martin Hora</a></strong>
+        </div>
+      </footer>
+
+      
+      <div class="control-sidebar-bg"></div>
+    </div>
+
+    <script src="{$basePath}/build/js/bundle.js"></script>
+
+    <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

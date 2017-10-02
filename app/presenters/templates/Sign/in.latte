@@ -1,0 +1,31 @@
+{var $robots = noindex}
+
+{block #content}
+
+<div class="login-box">
+  <div class="login-logo">
+    <a href=""><b>Finance</b> MANAGER</a>
+  </div><!-- /.login-logo -->
+  <div class="login-box-body">
+    <p class="login-box-msg">Přihlašte se, prosím.</p>
+    {form signInForm}
+      {control $form errors}
+      <div class="form-group has-feedback">
+      	{input username}
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        {input password}
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      {input send}
+      <br>
+      <!-- <a href="#/password-reset-email">Zapomenuté heslo</a> -->
+    {/form}
+
+
+   <!--  <a href="#">I forgot my password</a><br>
+    <a href="register.html" class="text-center">Register a new membership</a> -->
+
+  </div><!-- /.login-box-body -->
+</div>

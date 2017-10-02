@@ -1,0 +1,46 @@
+{redefine table-open-tag}
+<table class="table table-striped table-hover table-responsive">
+{/redefine}
+
+{define col-filter-date}
+    {formContainer date}
+        {input month}
+        {input year}
+    {/formContainer}
+{/define}
+
+{define col-filter-expense_type_title}
+    {formContainer expense_type_title}
+        {input expense_type_id}
+    {/formContainer}
+{/define}
+
+{define row-actions}
+    <a href="{plink Expense:edit id => $row->id}">
+        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+    </a>
+    <a href="{plink Expense:delete id => $row->id}" class="confirm-delete">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+    </a>
+{/define}
+
+{define col-expense_type_title}
+    <td>{$row->expense_type->title}</td>
+{/define}
+
+{define col-date}
+    <td>{$row->date|date:'d.m.Y'}</td>
+{/define}
+
+{define col-price}
+    <td class="text-right">{$cell|number:0:",":" "}</td>
+{/define}
+
+{define col-priority}
+    <td class="text-center">{$cell}</td>
+{/define}
+
+{define col-periodic_payment_id}
+    <td class="text-center"><i class="fa fa-fw fa-{$row->periodic_payment_id ? 'check' : 'minus'}-circle"></i></td>
+{/define}
+

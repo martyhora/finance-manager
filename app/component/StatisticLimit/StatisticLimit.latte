@@ -1,0 +1,72 @@
+{snippet statisticsLimitDashboard}
+
+{form limitFilterForm}
+  {label month /}&nbsp;&nbsp;&nbsp;{input month, 'style' => 'width: 80px; display: inline'}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  {label year /}&nbsp;&nbsp;&nbsp;{input year, 'style' => 'width: 80px; display: inline'}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{input filter_limit, 'style' => 'margin-top: -3px'}
+{/form}
+
+<br>
+
+{if $statsData['limit'] > 0}
+<div>
+  <div class="progress-group">
+    <span class="progress-text">Limit na aktuální měcíc ({$statsData['percentage']|number:0:',':' '} %)</span>
+    <span class="progress-number"><b>{$statsData['monthSpent']|number:0:',':' '} Kč</b> / {$statsData['limit']|number:0:',':' '} Kč</span>
+    <div class="progress sm">
+      <div class="progress-bar progress-bar-danger" style="width: {$statsData['percentage']}%"></div>
+    </div>
+  </div>
+
+  <div class="progress-group">
+    <span class="progress-text">Limit na aktuální měcíc bez fixních výdajů ({$statsData['percentageExcludingFixed']} %)</span>
+    <span class="progress-number"><b>{$statsData['monthSpentExludingFixed']|number:0:',':' '} Kč</b> / {($statsData['limit'] - $statsData['fixedExpenseSum'])|number:0:',':' '} Kč</span>
+    <div class="progress sm">
+      <div class="progress-bar progress-bar-danger" style="width: {$statsData['percentageExcludingFixed']}%"></div>
+    </div>
+  </div>
+
+  <div class="progress-group">
+    <span class="progress-text">Rozložení výdajů do jednolivých dní bez fixních výdajů ({$statsData['avgPercentage']} %)</span>
+    <span class="progress-number"><b>{$statsData['avgTrend']|number:0:',':' '} Kč</b> / {($statsData['limit'] - $statsData['fixedExpenseSum'])|number:0:',':' '} Kč</span>
+    <div class="progress sm">
+      <div class="progress-bar progress-bar-primary" style="width: {$statsData['avgPercentage']}%"></div>
+    </div>
+  </div>
+
+  {? $remainingDays = ($statsData['lastDay'] - $statsData['actualDay'] + 1) }
+
+  <table class="table table-striped table-hover table-responsive">
+      <tr>
+        <td><b>Průměrné výdaje na den podle limitu bez fixních výdajů: </b></td>
+        <td><b>{$statsData['dayAvgExcludingFixed']|number:0:',':' '} Kč</b> / {$statsData['dayAvgLimitExcludingFixed']|number:0:',':' '} Kč</td>
+      </tr>     
+      <tr>
+        <td>
+          <b>Aktuální bilance bez fixních výdajů: </b>
+        </td>
+        <td>
+          <div class="statsInfoCell">
+            <b>celkem:</b> <span class="label label-{($statsData['spentDiff'] > 0 ? 'success' : 'danger')}">{$statsData['spentDiff']|number:0:',':' '} Kč ({$statsData['spentDiffPercentageAvg']|number:0:',':' '} %)</span>
+          </div>
+          <div class="statsInfoCell">
+            <b>na den:</b> <span class="label label-{($statsData['spentDiffAvg'] > 0 ? 'success' : 'danger')}">{$statsData['spentDiffAvg']|number:0:',':' '} Kč</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td><b>Zbývá do limitu do konce měsíce (za {$remainingDays} dní): </b></td>
+        <td>
+          <div class="statsInfoCell">
+            <b>celkem: </b><span class="label label-{($statsData['limit'] - $statsData['monthSpent'] > 0 ? 'success' : 'danger')}">{($statsData['limit'] - $statsData['monthSpent'])|number:0:',':' '} Kč</span>
+          </div>
+          <div class="statsInfoCell">
+            <b>na den: </b><span class="label label-{($statsData['limit'] - $statsData['monthSpent'] > 0 ? 'success' : 'danger')}">{round(($statsData['limit'] - $statsData['monthSpent']) / $remainingDays)|number:0:',':' '} Kč</span></td>
+          </div>
+      </tr>     
+  </table>
+</div>
+{else}
+<p>Pro tento měsíc není zadaný limit.</p>
+{/if}
+
+{/snippet}
