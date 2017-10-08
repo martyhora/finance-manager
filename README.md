@@ -8,6 +8,8 @@ Not only you can add your expenses to app but there's also a possibility to defi
 
 Another useful feature would be periodic payments that will be automaticly added to the expenses each month. By setting periodic payments, you don't have to add the payments each month manually.
 
+![alt text](https://martyhora.cz/img/portfolio/thumbnails/2.png)
+
 # Installation
 
 - clone project by running ```git clone https://github.com/martyhora/finance-manager.git``` and set www folder as DocumentRoot
